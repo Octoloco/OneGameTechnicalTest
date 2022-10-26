@@ -18,6 +18,9 @@ public class CombinationManager : MonoBehaviour
     [SerializeField] private CombinationsScriptableObject yellowCombinations;
     [SerializeField] private CombinationsScriptableObject cyanCombinations;
     [SerializeField] private CombinationsScriptableObject blueCombinations;
+    [SerializeField] private CraftTextAnimation craftText;
+    [SerializeField] private ParticleSystemRenderer[] particles = new ParticleSystemRenderer[4];
+    [SerializeField] private Material[] particleMaterials = new Material[6];
 
     private int selectionIndex = 0;
 
@@ -132,6 +135,7 @@ public class CombinationManager : MonoBehaviour
                     rawInventory.items[redCombinations.products[rarityIndex].materials[i]] -= craftedItems;
                 }
                 productInventory.AddItems(craftedItems, colorIndex, rarityIndex);
+                craftText.StartAnim(craftedItems, colorIndex, rarityIndex);
                 break;
 
             case 1:
@@ -140,6 +144,7 @@ public class CombinationManager : MonoBehaviour
                     rawInventory.items[greenCombinations.products[rarityIndex].materials[i]] -= craftedItems;
                 }
                 productInventory.AddItems(craftedItems, colorIndex, rarityIndex);
+                craftText.StartAnim(craftedItems, colorIndex, rarityIndex);
                 break;
 
             case 2:
@@ -148,6 +153,7 @@ public class CombinationManager : MonoBehaviour
                     rawInventory.items[purpleCombinations.products[rarityIndex].materials[i]] -= craftedItems;
                 }
                 productInventory.AddItems(craftedItems, colorIndex, rarityIndex);
+                craftText.StartAnim(craftedItems, colorIndex, rarityIndex);
                 break;
 
             case 3:
@@ -156,6 +162,7 @@ public class CombinationManager : MonoBehaviour
                     rawInventory.items[yellowCombinations.products[rarityIndex].materials[i]] -= craftedItems;
                 }
                 productInventory.AddItems(craftedItems, colorIndex, rarityIndex);
+                craftText.StartAnim(craftedItems, colorIndex, rarityIndex);
                 break;
 
             case 4:
@@ -164,6 +171,7 @@ public class CombinationManager : MonoBehaviour
                     rawInventory.items[cyanCombinations.products[rarityIndex].materials[i]] -= craftedItems;
                 }
                 productInventory.AddItems(craftedItems, colorIndex, rarityIndex);
+                craftText.StartAnim(craftedItems, colorIndex, rarityIndex);
                 break;
 
             case 5:
@@ -172,6 +180,7 @@ public class CombinationManager : MonoBehaviour
                     rawInventory.items[blueCombinations.products[rarityIndex].materials[i]] -= craftedItems;
                 }
                 productInventory.AddItems(craftedItems, colorIndex, rarityIndex);
+                craftText.StartAnim(craftedItems, colorIndex, rarityIndex);
                 break;
         }
     }
@@ -183,13 +192,21 @@ public class CombinationManager : MonoBehaviour
 
     private int CheckMaterialAvailability(int colorIndex, int rarityIndex)
     {
+        foreach(ParticleSystemRenderer p in particles)
+        {
+            p.GetComponent<ParticleSystem>().Stop();
+        }
         int maxCraftables = 0;
         switch (colorIndex)
         {
             case 0:
                 maxCraftables = rawInventory.items[redCombinations.products[rarityIndex].materials[0]];
+                particles[0].material = particleMaterials[redCombinations.products[rarityIndex].materials[0]];
+                particles[0].GetComponent<ParticleSystem>().Play();
                 for (int i = 1; i < redCombinations.products[rarityIndex].materials.Length; i++) 
                 {
+                    particles[i].material = particleMaterials[redCombinations.products[rarityIndex].materials[i]];
+                    particles[i].GetComponent<ParticleSystem>().Play();
                     if (rawInventory.items[redCombinations.products[rarityIndex].materials[i]] >= 1)
                     {
                         if (rawInventory.items[redCombinations.products[rarityIndex].materials[i]] < maxCraftables)
@@ -207,8 +224,12 @@ public class CombinationManager : MonoBehaviour
 
             case 1:
                 maxCraftables = rawInventory.items[greenCombinations.products[rarityIndex].materials[0]];
+                particles[0].material = particleMaterials[greenCombinations.products[rarityIndex].materials[0]];
+                particles[0].GetComponent<ParticleSystem>().Play();
                 for (int i = 1; i < greenCombinations.products[rarityIndex].materials.Length; i++)
                 {
+                    particles[i].material = particleMaterials[greenCombinations.products[rarityIndex].materials[i]];
+                    particles[i].GetComponent<ParticleSystem>().Play();
                     if (rawInventory.items[greenCombinations.products[rarityIndex].materials[i]] >= 1)
                     {
                         if (rawInventory.items[greenCombinations.products[rarityIndex].materials[i]] < maxCraftables)
@@ -226,8 +247,12 @@ public class CombinationManager : MonoBehaviour
 
             case 2:
                 maxCraftables = rawInventory.items[purpleCombinations.products[rarityIndex].materials[0]];
+                particles[0].material = particleMaterials[purpleCombinations.products[rarityIndex].materials[0]];
+                particles[0].GetComponent<ParticleSystem>().Play();
                 for (int i = 1; i < purpleCombinations.products[rarityIndex].materials.Length; i++)
                 {
+                    particles[i].material = particleMaterials[purpleCombinations.products[rarityIndex].materials[i]];
+                    particles[i].GetComponent<ParticleSystem>().Play();
                     if (rawInventory.items[purpleCombinations.products[rarityIndex].materials[i]] >= 1)
                     {
                         if (rawInventory.items[purpleCombinations.products[rarityIndex].materials[i]] < maxCraftables)
@@ -245,8 +270,12 @@ public class CombinationManager : MonoBehaviour
 
             case 3:
                 maxCraftables = rawInventory.items[yellowCombinations.products[rarityIndex].materials[0]];
+                particles[0].material = particleMaterials[yellowCombinations.products[rarityIndex].materials[0]];
+                particles[0].GetComponent<ParticleSystem>().Play();
                 for (int i = 1; i < yellowCombinations.products[rarityIndex].materials.Length; i++)
                 {
+                    particles[i].material = particleMaterials[yellowCombinations.products[rarityIndex].materials[i]];
+                    particles[i].GetComponent<ParticleSystem>().Play();
                     if (rawInventory.items[yellowCombinations.products[rarityIndex].materials[i]] >= 1)
                     {
                         if (rawInventory.items[yellowCombinations.products[rarityIndex].materials[i]] < maxCraftables)
@@ -264,8 +293,12 @@ public class CombinationManager : MonoBehaviour
 
             case 4:
                 maxCraftables = rawInventory.items[cyanCombinations.products[rarityIndex].materials[0]];
+                particles[0].material = particleMaterials[cyanCombinations.products[rarityIndex].materials[0]];
+                particles[0].GetComponent<ParticleSystem>().Play();
                 for (int i = 1; i < cyanCombinations.products[rarityIndex].materials.Length; i++)
                 {
+                    particles[i].material = particleMaterials[cyanCombinations.products[rarityIndex].materials[i]];
+                    particles[i].GetComponent<ParticleSystem>().Play();
                     if (rawInventory.items[cyanCombinations.products[rarityIndex].materials[i]] >= 1)
                     {
                         if (rawInventory.items[cyanCombinations.products[rarityIndex].materials[i]] < maxCraftables)
@@ -283,8 +316,12 @@ public class CombinationManager : MonoBehaviour
 
             case 5:
                 maxCraftables = rawInventory.items[blueCombinations.products[rarityIndex].materials[0]];
+                particles[0].material = particleMaterials[blueCombinations.products[rarityIndex].materials[0]];
+                particles[0].GetComponent<ParticleSystem>().Play();
                 for (int i = 1; i < blueCombinations.products[rarityIndex].materials.Length; i++)
                 {
+                    particles[i].material = particleMaterials[blueCombinations.products[rarityIndex].materials[i]];
+                    particles[i].GetComponent<ParticleSystem>().Play();
                     if (rawInventory.items[blueCombinations.products[rarityIndex].materials[i]] >= 1)
                     {
                         if (rawInventory.items[blueCombinations.products[rarityIndex].materials[i]] < maxCraftables)
